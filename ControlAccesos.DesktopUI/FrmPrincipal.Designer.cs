@@ -46,7 +46,7 @@
             tabControlPrincipal.Controls.Add(tabPage1);
             tabControlPrincipal.Controls.Add(tabPage2);
             tabControlPrincipal.Controls.Add(tabPage3);
-            tabControlPrincipal.Location = new Point(12, 12);
+            tabControlPrincipal.Location = new Point(13, 12);
             tabControlPrincipal.Name = "tabControlPrincipal";
             tabControlPrincipal.SelectedIndex = 0;
             tabControlPrincipal.Size = new Size(776, 426);
