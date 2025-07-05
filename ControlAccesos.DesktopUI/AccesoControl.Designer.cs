@@ -30,7 +30,7 @@
         {
             btnEliminarResidente = new Button();
             btnEditarResidente = new Button();
-            btnNuevoResidente = new Button();
+            btnNuevoUsuario = new Button();
             dgvResidentes = new DataGridView();
             btnBuscarResidente = new Button();
             txtBuscarResidente = new TextBox();
@@ -58,14 +58,15 @@
             btnEditarResidente.Text = "Editar Seleccionado";
             btnEditarResidente.UseVisualStyleBackColor = true;
             // 
-            // btnNuevoResidente
+            // btnNuevoUsuario
             // 
-            btnNuevoResidente.Location = new Point(14, 345);
-            btnNuevoResidente.Name = "btnNuevoResidente";
-            btnNuevoResidente.Size = new Size(166, 29);
-            btnNuevoResidente.TabIndex = 11;
-            btnNuevoResidente.Text = "Nuevo Residente";
-            btnNuevoResidente.UseVisualStyleBackColor = true;
+            btnNuevoUsuario.Location = new Point(14, 345);
+            btnNuevoUsuario.Name = "btnNuevoUsuario";
+            btnNuevoUsuario.Size = new Size(166, 29);
+            btnNuevoUsuario.TabIndex = 11;
+            btnNuevoUsuario.Text = "Nuevo usuario";
+            btnNuevoUsuario.UseVisualStyleBackColor = true;
+            btnNuevoUsuario.Click += btnNuevoUsuario_Click;
             // 
             // dgvResidentes
             // 
@@ -107,7 +108,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(btnEliminarResidente);
             Controls.Add(btnEditarResidente);
-            Controls.Add(btnNuevoResidente);
+            Controls.Add(btnNuevoUsuario);
             Controls.Add(dgvResidentes);
             Controls.Add(btnBuscarResidente);
             Controls.Add(txtBuscarResidente);
@@ -123,7 +124,7 @@
 
         private Button btnEliminarResidente;
         private Button btnEditarResidente;
-        private Button btnNuevoResidente;
+        private Button btnNuevoUsuario;
         private DataGridView dgvResidentes;
         private Button btnBuscarResidente;
         private TextBox txtBuscarResidente;
