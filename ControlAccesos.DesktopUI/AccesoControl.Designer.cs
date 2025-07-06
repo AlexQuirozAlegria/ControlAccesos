@@ -57,6 +57,7 @@
             btnEditarResidente.TabIndex = 12;
             btnEditarResidente.Text = "Editar Seleccionado";
             btnEditarResidente.UseVisualStyleBackColor = true;
+            btnEditarResidente.Click += btnEditarResidente_Click;
             // 
             // btnNuevoUsuario
             // 
@@ -98,9 +99,9 @@
             label2.AutoSize = true;
             label2.Location = new Point(14, 13);
             label2.Name = "label2";
-            label2.Size = new Size(124, 20);
+            label2.Size = new Size(109, 20);
             label2.TabIndex = 7;
-            label2.Text = "Buscar Residente:";
+            label2.Text = "Buscar Usuario:";
             // 
             // AccesoControl
             // 

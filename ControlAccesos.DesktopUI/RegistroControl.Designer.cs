@@ -51,6 +51,7 @@
             label6 = new Label();
             btnRegistrar = new Button();
             btnCancelar = new Button();
+            btnActualizar = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -268,10 +269,20 @@
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Location = new Point(634, 214);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(145, 29);
+            btnActualizar.TabIndex = 5;
+            btnActualizar.Text = "Actualizar";
+            btnActualizar.UseVisualStyleBackColor = true;
+            // 
             // RegistroControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(btnActualizar);
             Controls.Add(btnCancelar);
             Controls.Add(btnRegistrar);
             Controls.Add(groupBox3);
@@ -313,5 +324,6 @@
         private Label label6;
         private Button btnRegistrar;
         private Button btnCancelar;
+        private Button btnActualizar;
     }
 }
