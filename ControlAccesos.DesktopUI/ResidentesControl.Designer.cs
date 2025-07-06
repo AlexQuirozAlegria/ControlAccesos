@@ -28,95 +28,107 @@
         /// </summary>
         private void InitializeComponent()
         {
-            groupBox1 = new GroupBox();
-            lblResultado = new Label();
-            btnSalida = new Button();
-            btnEntrada = new Button();
-            txtCodigoQR = new TextBox();
-            label1 = new Label();
-            groupBox1.SuspendLayout();
+            btnEliminarResidente = new Button();
+            btnEditarResidente = new Button();
+            btnNuevoUsuario = new Button();
+            dgvResidentes = new DataGridView();
+            btnBuscarResidente = new Button();
+            txtBuscarResidente = new TextBox();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dgvResidentes).BeginInit();
             SuspendLayout();
             // 
-            // groupBox1
+            // btnEliminarResidente
             // 
-            groupBox1.Controls.Add(lblResultado);
-            groupBox1.Location = new Point(33, 197);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(711, 181);
-            groupBox1.TabIndex = 9;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Información del Acceso";
+            btnEliminarResidente.AutoSize = true;
+            btnEliminarResidente.Location = new Point(358, 344);
+            btnEliminarResidente.Name = "btnEliminarResidente";
+            btnEliminarResidente.Size = new Size(166, 30);
+            btnEliminarResidente.TabIndex = 13;
+            btnEliminarResidente.Text = "Eliminar Seleccionado";
+            btnEliminarResidente.UseVisualStyleBackColor = true;
             // 
-            // lblResultado
+            // btnEditarResidente
             // 
-            lblResultado.AutoSize = true;
-            lblResultado.Font = new Font("Segoe UI", 12F);
-            lblResultado.Location = new Point(21, 36);
-            lblResultado.Name = "lblResultado";
-            lblResultado.Size = new Size(183, 28);
-            lblResultado.TabIndex = 0;
-            lblResultado.Text = "Esperando código...";
+            btnEditarResidente.AutoSize = true;
+            btnEditarResidente.Location = new Point(186, 345);
+            btnEditarResidente.Name = "btnEditarResidente";
+            btnEditarResidente.Size = new Size(166, 30);
+            btnEditarResidente.TabIndex = 12;
+            btnEditarResidente.Text = "Editar Seleccionado";
+            btnEditarResidente.UseVisualStyleBackColor = true;
+            btnEditarResidente.Click += btnEditarResidente_Click;
             // 
-            // btnSalida
+            // btnNuevoUsuario
             // 
-            btnSalida.AutoSize = true;
-            btnSalida.Location = new Point(172, 83);
-            btnSalida.Name = "btnSalida";
-            btnSalida.Size = new Size(123, 30);
-            btnSalida.TabIndex = 8;
-            btnSalida.Text = "Registrar Salida";
-            btnSalida.UseVisualStyleBackColor = true;
+            btnNuevoUsuario.Location = new Point(14, 345);
+            btnNuevoUsuario.Name = "btnNuevoUsuario";
+            btnNuevoUsuario.Size = new Size(166, 29);
+            btnNuevoUsuario.TabIndex = 11;
+            btnNuevoUsuario.Text = "Nuevo usuario";
+            btnNuevoUsuario.UseVisualStyleBackColor = true;
+            btnNuevoUsuario.Click += btnNuevoUsuario_Click;
             // 
-            // btnEntrada
+            // dgvResidentes
             // 
-            btnEntrada.AutoSize = true;
-            btnEntrada.Location = new Point(33, 83);
-            btnEntrada.Name = "btnEntrada";
-            btnEntrada.Size = new Size(133, 30);
-            btnEntrada.TabIndex = 7;
-            btnEntrada.Text = "Registrar Entrada";
-            btnEntrada.UseVisualStyleBackColor = true;
+            dgvResidentes.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvResidentes.Location = new Point(14, 57);
+            dgvResidentes.Name = "dgvResidentes";
+            dgvResidentes.RowHeadersWidth = 51;
+            dgvResidentes.Size = new Size(717, 281);
+            dgvResidentes.TabIndex = 10;
             // 
-            // txtCodigoQR
+            // btnBuscarResidente
             // 
-            txtCodigoQR.Location = new Point(267, 24);
-            txtCodigoQR.Name = "txtCodigoQR";
-            txtCodigoQR.Size = new Size(477, 27);
-            txtCodigoQR.TabIndex = 6;
+            btnBuscarResidente.Location = new Point(637, 13);
+            btnBuscarResidente.Name = "btnBuscarResidente";
+            btnBuscarResidente.Size = new Size(94, 29);
+            btnBuscarResidente.TabIndex = 9;
+            btnBuscarResidente.Text = "Buscar";
+            btnBuscarResidente.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // txtBuscarResidente
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(33, 27);
-            label1.Name = "label1";
-            label1.Size = new Size(217, 20);
-            label1.TabIndex = 5;
-            label1.Text = "Escanear o ingresar Código QR:";
+            txtBuscarResidente.Location = new Point(144, 13);
+            txtBuscarResidente.Name = "txtBuscarResidente";
+            txtBuscarResidente.Size = new Size(487, 27);
+            txtBuscarResidente.TabIndex = 8;
             // 
-            // ResidentesControl
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(14, 13);
+            label2.Name = "label2";
+            label2.Size = new Size(109, 20);
+            label2.TabIndex = 7;
+            label2.Text = "Buscar Usuario:";
+            // 
+            // AccesoControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(groupBox1);
-            Controls.Add(btnSalida);
-            Controls.Add(btnEntrada);
-            Controls.Add(txtCodigoQR);
-            Controls.Add(label1);
-            Name = "ResidentesControl";
-            Size = new Size(787, 405);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
+            Controls.Add(btnEliminarResidente);
+            Controls.Add(btnEditarResidente);
+            Controls.Add(btnNuevoUsuario);
+            Controls.Add(dgvResidentes);
+            Controls.Add(btnBuscarResidente);
+            Controls.Add(txtBuscarResidente);
+            Controls.Add(label2);
+            Name = "AccesoControl";
+            Size = new Size(770, 403);
+            ((System.ComponentModel.ISupportInitialize)dgvResidentes).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private GroupBox groupBox1;
-        private Label lblResultado;
-        private Button btnSalida;
-        private Button btnEntrada;
-        private TextBox txtCodigoQR;
-        private Label label1;
+        private Button btnEliminarResidente;
+        private Button btnEditarResidente;
+        private Button btnNuevoUsuario;
+        private DataGridView dgvResidentes;
+        private Button btnBuscarResidente;
+        private TextBox txtBuscarResidente;
+        private Label label2;
     }
 }

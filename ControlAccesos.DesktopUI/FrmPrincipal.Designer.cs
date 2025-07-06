@@ -30,11 +30,11 @@
         {
             tabControlPrincipal = new TabControl();
             tabPage1 = new TabPage();
-            residentesControl1 = new ResidentesControl();
+            residentesControl1 = new AccesoControl();
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
             historialControl1 = new HistorialControl();
-            accesoControl1 = new AccesoControl();
+            accesoControl1 = new ResidentesControl();
             tabControlPrincipal.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -126,8 +126,8 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TabPage tabPage3;
-        private ResidentesControl residentesControl1;
+        private AccesoControl residentesControl1;
         private HistorialControl historialControl1;
-        private AccesoControl accesoControl1;
+        private ResidentesControl accesoControl1;
     }
 }
