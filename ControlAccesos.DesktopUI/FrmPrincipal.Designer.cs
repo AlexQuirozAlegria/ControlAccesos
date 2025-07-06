@@ -34,7 +34,7 @@
             tabPage2 = new TabPage();
             tabPage3 = new TabPage();
             historialControl1 = new HistorialControl();
-            accesoControl1 = new ResidentesControl();
+            residentesControl2 = new ResidentesControl();
             tabControlPrincipal.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -72,7 +72,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(accesoControl1);
+            tabPage2.Controls.Add(residentesControl2);
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -98,12 +98,12 @@
             historialControl1.Size = new Size(747, 374);
             historialControl1.TabIndex = 0;
             // 
-            // accesoControl1
+            // residentesControl2
             // 
-            accesoControl1.Location = new Point(6, 6);
-            accesoControl1.Name = "accesoControl1";
-            accesoControl1.Size = new Size(755, 384);
-            accesoControl1.TabIndex = 0;
+            residentesControl2.Location = new Point(3, 6);
+            residentesControl2.Name = "residentesControl2";
+            residentesControl2.Size = new Size(760, 387);
+            residentesControl2.TabIndex = 0;
             // 
             // FrmPrincipal
             // 
@@ -128,6 +128,6 @@
         private TabPage tabPage3;
         private AccesoControl residentesControl1;
         private HistorialControl historialControl1;
-        private ResidentesControl accesoControl1;
+        private ResidentesControl residentesControl2;
     }
 }
