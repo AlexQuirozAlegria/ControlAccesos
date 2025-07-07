@@ -8,7 +8,8 @@ namespace ControlAccesos.Core.Models
 {
     public enum EAccessType
     {
-        Unico,
-        Recurrente
+        Unica,
+        Recurrente,
+        PorFecha
     }
 }

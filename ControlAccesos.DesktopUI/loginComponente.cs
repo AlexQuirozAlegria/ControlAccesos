@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,7 @@ namespace ControlAccesos.DesktopUI
 
             using (var httpClient = new HttpClient())
             {
-                string url = "http://localhost:5000/api/Account/login/"; // Cambia la URL por la de tu API real
+                string url = "http://localhost:5295/api/Account/login/"; // Cambia la URL por la de tu API real
                 var json = JsonSerializer.Serialize(loginRequest);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
@@ -41,9 +42,12 @@ namespace ControlAccesos.DesktopUI
                     var responseBody = await response.Content.ReadAsStringAsync();
                     var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody);
 
-                    if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+                    Debug.WriteLine("Login response: " + loginResponse.token);
+                    Debug.WriteLine("responseBody: " + responseBody.ToString());
+                    if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.token))
                     {
-                        StaticSession.JwtToken = loginResponse.Token;
+                        StaticSession.JwtToken = loginResponse.token;
+                        Debug.WriteLine("Tokenwa: " + StaticSession.JwtToken);
                         // Aquí puedes guardar el token en una clase estática o singleton para usarlo en toda la app
                         // Por ejemplo: SessionManager.JwtToken = loginResponse.Token;
                         return true;
