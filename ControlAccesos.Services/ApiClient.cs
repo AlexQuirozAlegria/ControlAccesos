@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 public class ApiClient
@@ -111,7 +112,46 @@ public class ApiClient
         });
     }
 
-    // Optional: Overload for PostWithQueryAsync with no body
+    public async Task PostAsync<TRequest>(string path, TRequest data)
+    {
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() }
+        };
+        string json = JsonSerializer.Serialize(data, options);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage response = await _httpClient.PostAsync(path, content);
+        Debug.WriteLine(json);
+        if (!response.IsSuccessStatusCode)
+        {
+            string errorContent = await response.Content.ReadAsStringAsync();
+
+            using var errorDoc = JsonDocument.Parse(errorContent);
+            if (errorDoc.RootElement.TryGetProperty("errors", out JsonElement errors))
+            {
+                var messages = new List<string>();
+
+                foreach (JsonProperty prop in errors.EnumerateObject())
+                {
+                    foreach (JsonElement message in prop.Value.EnumerateArray())
+                    {
+                        messages.Add(message.GetString());
+                    }
+                }
+
+                string combinedErrors = string.Join(" ", messages); // Or use "\n" for line breaks
+
+                throw new HttpRequestException(combinedErrors);
+            }
+            else
+            {
+                throw new HttpRequestException("Ocurrió un error inesperado.");
+            }
+        }
+    }
+
+
     public async Task<TResponse?> PostWithQueryAsync<TResponse>(
         string path,
         Dictionary<string, string> queryParams
@@ -134,6 +174,19 @@ public class ApiClient
             PropertyNameCaseInsensitive = true
         });
     }
+
+    public async Task<string> DeleteAsync(string path)
+    {
+        HttpResponseMessage response = await _httpClient.DeleteAsync(path);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            string error = await response.Content.ReadAsStringAsync();
+            throw new HttpRequestException($"DELETE failed: {response.StatusCode}\n{error}");
+        }
+        return await response.Content.ReadAsStringAsync();
+    }
+
 
 
     public static string BuildQueryString(Dictionary<string, string> parameters)

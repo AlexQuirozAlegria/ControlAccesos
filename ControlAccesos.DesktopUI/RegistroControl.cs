@@ -1,11 +1,12 @@
 ﻿using ControlAccesos.Core.Models;
+using System.Diagnostics;
 
 namespace ControlAccesos.DesktopUI
 {
     public partial class RegistroControl : UserControl
     {
         private DataGridViewRow _selectedRow;
-        private ApiClient _apiClient = new ApiClient("http://localhost:5295/api/Residentes/", StaticSession.JwtToken);
+        private ApiClient _apiClient = new ApiClient("http://localhost:5295/api/", StaticSession.JwtToken);
         private int residenteId;
 
         public RegistroControl()
@@ -13,6 +14,7 @@ namespace ControlAccesos.DesktopUI
             InitializeComponent();
             btnActualizar.Visible = false;
             btnRegistrar.Visible = true;
+            cmbRol.SelectedIndex = 0;
         }
 
         public RegistroControl(DataGridViewRow selectedRow)
@@ -72,7 +74,7 @@ namespace ControlAccesos.DesktopUI
                 Plate = txtPlacas.Text
             };
             Residentes? response = await
-                _apiClient.PutAsync<ResidentesPut, Residentes>($"{residenteId}", data);
+                _apiClient.PutAsync<ResidentesPut, Residentes>($"Residentes/{residenteId}", data);
             if (response != null)
             {
                 MessageBox.Show("Registro actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -82,6 +84,42 @@ namespace ControlAccesos.DesktopUI
             {
                 MessageBox.Show("Error al actualizar el registro.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
+            }
+        }
+
+        private async void btnRegistrar_Click(object sender, EventArgs e)
+        {
+            User data = new User
+            {
+                Username = txtUsername.Text,
+                Password = txtPassword.Text,
+                Role = (ERole)cmbRol.SelectedIndex,
+                Name = txtNombre.Text,
+                LastName = txtApellidos.Text,
+                Plate = txtPlacas.Text,
+                Address = txtDomicilio.Text,
+                Phone = txtTelefono.Text,
+                Model = txtVehiculo.Text
+            };
+            try
+            {
+                Debug.WriteLine($"Username: {data.Username}");
+                Debug.WriteLine($"Password: {data.Password}");
+                Debug.WriteLine($"Role: {data.Role}");
+                Debug.WriteLine($"Name: {data.Name}");
+                Debug.WriteLine($"LastName: {data.LastName}");
+                Debug.WriteLine($"Plate: {data.Plate}");
+                Debug.WriteLine($"Address: {data.Address}");
+                Debug.WriteLine($"Phone: {data.Phone}");
+                Debug.WriteLine($"Model: {data.Model}");
+                await _apiClient.PostAsync<User>("Account/registerUser", data);
+                MessageBox.Show("Usuario registrado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.FindForm()?.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al registrar el usuario: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
         }
     }
