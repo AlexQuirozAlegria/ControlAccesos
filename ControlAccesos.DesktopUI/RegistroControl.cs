@@ -2,14 +2,27 @@
 {
     public partial class RegistroControl : UserControl
     {
-        public RegistroControl()
+        private int? _residenteId;
+
+        public RegistroControl(int? residenteId = null)
         {
             InitializeComponent();
+            _residenteId = residenteId;
+
+            if (_residenteId.HasValue)
+            {
+                btnActualizar.Visible = true;
+                btnRegistrar.Visible = false;
+            }
+            else
+            {
+                btnActualizar.Visible = false;
+                btnRegistrar.Visible = true;
+            }
         }
 
         private void cmbRol_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             var groupBoxResidente = this.Controls.Find("groupBox3", true).FirstOrDefault();
 
             if (groupBoxResidente != null)

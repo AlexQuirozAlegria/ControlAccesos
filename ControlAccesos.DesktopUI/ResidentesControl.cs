@@ -27,13 +27,13 @@
 
         private void btnEditarResidente_Click(object sender, EventArgs e)
         {
+            int idParaEditar = 1;
             using (var formRegistro = new FormRegistro())
             {
-                var registroControl = new RegistroControl();
-
+                var registroControl = new RegistroControl(idParaEditar);
                 registroControl.Dock = DockStyle.Fill;
 
-                formRegistro.Text = "Nuevo Registro";
+                formRegistro.Text = "Editar Registro";
 
                 formRegistro.Size = new System.Drawing.Size(850, 420);
 
