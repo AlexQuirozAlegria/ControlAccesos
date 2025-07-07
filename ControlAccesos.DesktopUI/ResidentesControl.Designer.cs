@@ -49,6 +49,7 @@
             btnEliminarResidente.TabIndex = 13;
             btnEliminarResidente.Text = "Eliminar Seleccionado";
             btnEliminarResidente.UseVisualStyleBackColor = true;
+            btnEliminarResidente.Click += btnEliminarResidente_Click;
             // 
             // btnEditarResidente
             // 

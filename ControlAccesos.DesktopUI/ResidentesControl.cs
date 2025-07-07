@@ -48,7 +48,7 @@ namespace ControlAccesos.DesktopUI
 
         private void btnEditarResidente_Click(object sender, EventArgs e)
         {
-            if(dgvResidentes.SelectedRows.Count == 0)
+            if (dgvResidentes.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Seleccione primero un residente para editar");
                 return;
@@ -73,11 +73,11 @@ namespace ControlAccesos.DesktopUI
             string address = txtBuscarPorDomicilio.Text.Trim();
 
             var queryParams = new Dictionary<string, string>();
-            if(!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 queryParams.Add("nombre", name);
             }
-            if(!string.IsNullOrEmpty(address))
+            if (!string.IsNullOrEmpty(address))
             {
                 queryParams.Add("domicilio", address);
             }
@@ -88,7 +88,7 @@ namespace ControlAccesos.DesktopUI
             {
                 List<Residentes>? residentes = await
                     _apiClient.GetAsync<List<Residentes>>($"getAllBy?{queryString}");
-                if(residentes == null)
+                if (residentes == null)
                 {
                     Debug.WriteLine("No se encontraron residentes.");
                     MessageBox.Show("No se encontraron residentes con los criterios de búsqueda proporcionados.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -96,10 +96,37 @@ namespace ControlAccesos.DesktopUI
                 }
                 Debug.WriteLine(residentes.Count);
                 residentes.ToList().ForEach(residentesList.Add);
-            } catch(HttpRequestException ex)
+            }
+            catch (HttpRequestException ex)
             {
                 Debug.WriteLine($"Error al obtener los residentes: {ex.Message}");
                 MessageBox.Show("Error al obtener los residentes. Por favor, intente de nuevo más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void btnEliminarResidente_Click(object sender, EventArgs e)
+        {
+            if (dgvResidentes.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Seleccione primero un residente para eliminar");
+                return;
+            }
+            DataGridViewRow selectedRow = dgvResidentes.SelectedRows[0];
+            int residenteId = Convert.ToInt32(selectedRow.Cells["Id"].Value);
+            DialogResult result = MessageBox.Show("¿Está seguro de que desea eliminar este residente?", "Confirmar Eliminación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    string response = await _apiClient.DeleteAsync($"{residenteId}");
+                    MessageBox.Show("Residente eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    btnBuscarUsuario_Click(sender, e);
+                }
+                catch (HttpRequestException ex)
+                {
+                    Debug.WriteLine($"Error al eliminar el residente: {ex.Message}");
+                    MessageBox.Show("Error al eliminar el residente. Por favor, intente de nuevo más tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

@@ -152,6 +152,7 @@
             // 
             // cmbRol
             // 
+            cmbRol.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbRol.FormattingEnabled = true;
             cmbRol.Items.AddRange(new object[] { "Residente", "Guardia" });
             cmbRol.Location = new Point(57, 37);
@@ -258,6 +259,7 @@
             btnRegistrar.TabIndex = 3;
             btnRegistrar.Text = "Registrar";
             btnRegistrar.UseVisualStyleBackColor = true;
+            btnRegistrar.Click += btnRegistrar_Click;
             // 
             // btnCancelar
             // 
