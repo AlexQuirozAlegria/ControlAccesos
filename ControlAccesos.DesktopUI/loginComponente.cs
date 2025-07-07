@@ -21,7 +21,7 @@ namespace ControlAccesos.DesktopUI
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (txtUsuario.Text == "admin" && txtPassword.Text == "1234")
+            if (txtUsuario.Text == "ROOT" && txtPassword.Text == "1234")
             {
                 this.LoginExitoso = true;
                 this.FindForm()?.Close();
