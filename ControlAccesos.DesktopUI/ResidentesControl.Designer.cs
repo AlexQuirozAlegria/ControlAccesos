@@ -32,12 +32,11 @@
             btnEditarResidente = new Button();
             btnNuevoUsuario = new Button();
             dgvResidentes = new DataGridView();
-            btnBuscarPorNombre = new Button();
             txtBuscarPorNombre = new TextBox();
             label2 = new Label();
             label1 = new Label();
             txtBuscarPorDomicilio = new TextBox();
-            btnBuscarPorDomicilio = new Button();
+            btnBuscarUsuario = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvResidentes).BeginInit();
             SuspendLayout();
             // 
@@ -81,15 +80,6 @@
             dgvResidentes.Size = new Size(717, 240);
             dgvResidentes.TabIndex = 10;
             // 
-            // btnBuscarPorNombre
-            // 
-            btnBuscarPorNombre.Location = new Point(637, 13);
-            btnBuscarPorNombre.Name = "btnBuscarPorNombre";
-            btnBuscarPorNombre.Size = new Size(94, 29);
-            btnBuscarPorNombre.TabIndex = 9;
-            btnBuscarPorNombre.Text = "Buscar";
-            btnBuscarPorNombre.UseVisualStyleBackColor = true;
-            // 
             // txtBuscarPorNombre
             // 
             txtBuscarPorNombre.Location = new Point(169, 13);
@@ -122,27 +112,26 @@
             txtBuscarPorDomicilio.Size = new Size(462, 27);
             txtBuscarPorDomicilio.TabIndex = 15;
             // 
-            // btnBuscarPorDomicilio
+            // btnBuscarUsuario
             // 
-            btnBuscarPorDomicilio.Location = new Point(637, 53);
-            btnBuscarPorDomicilio.Name = "btnBuscarPorDomicilio";
-            btnBuscarPorDomicilio.Size = new Size(94, 29);
-            btnBuscarPorDomicilio.TabIndex = 16;
-            btnBuscarPorDomicilio.Text = "Buscar";
-            btnBuscarPorDomicilio.UseVisualStyleBackColor = true;
+            btnBuscarUsuario.Location = new Point(637, 53);
+            btnBuscarUsuario.Name = "btnBuscarUsuario";
+            btnBuscarUsuario.Size = new Size(94, 29);
+            btnBuscarUsuario.TabIndex = 16;
+            btnBuscarUsuario.Text = "Buscar";
+            btnBuscarUsuario.UseVisualStyleBackColor = true;
             // 
             // ResidentesControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(btnBuscarPorDomicilio);
+            Controls.Add(btnBuscarUsuario);
             Controls.Add(txtBuscarPorDomicilio);
             Controls.Add(label1);
             Controls.Add(btnEliminarResidente);
             Controls.Add(btnEditarResidente);
             Controls.Add(btnNuevoUsuario);
             Controls.Add(dgvResidentes);
-            Controls.Add(btnBuscarPorNombre);
             Controls.Add(txtBuscarPorNombre);
             Controls.Add(label2);
             Name = "ResidentesControl";
@@ -163,6 +152,6 @@
         private Label label2;
         private Label label1;
         private TextBox txtBuscarPorDomicilio;
-        private Button btnBuscarPorDomicilio;
+        private Button btnBuscarUsuario;
     }
 }
