@@ -71,9 +71,9 @@
             // 
             // btnLogin
             // 
-            btnLogin.Location = new Point(301, 201);
+            btnLogin.Location = new Point(301, 194);
             btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(94, 29);
+            btnLogin.Size = new Size(94, 31);
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Ingresar";
             btnLogin.UseVisualStyleBackColor = true;
