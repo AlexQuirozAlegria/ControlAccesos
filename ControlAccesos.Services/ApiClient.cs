@@ -41,10 +41,23 @@ public class ApiClient
 
     public async Task<T?> GetAsync<T>(string path)
     {
+        AddJwtHeader(); // Ensure token is applied if needed
         Debug.WriteLine($"GET Request: {path}");
         Debug.WriteLine($"JWT Token: {_jwtToken}");
+
         HttpResponseMessage response = await _httpClient.GetAsync(path);
-        response.EnsureSuccessStatusCode();
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Debug.WriteLine("Resource not found (404). Returning null.");
+            return default;
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Debug.WriteLine($"Request failed with status {response.StatusCode}");
+            throw new HttpRequestException($"Request failed: {response.StatusCode}");
+        }
 
         string json = await response.Content.ReadAsStringAsync();
 
@@ -53,6 +66,7 @@ public class ApiClient
             PropertyNameCaseInsensitive = true
         });
     }
+
 
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(string path, TRequest data)
     {
@@ -105,6 +119,22 @@ public class ApiClient
     {
         return await PostWithQueryAsync<object, TResponse>(path, queryParams, null);
     }
+
+    public async Task<TResponse?> PutAsync<TRequest, TResponse>(string path, TRequest data)
+    {
+        string json = JsonSerializer.Serialize(data);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage response = await _httpClient.PutAsync(path, content);
+        response.EnsureSuccessStatusCode();
+
+        string responseBody = await response.Content.ReadAsStringAsync();
+        return JsonSerializer.Deserialize<TResponse>(responseBody, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        });
+    }
+
 
     public static string BuildQueryString(Dictionary<string, string> parameters)
     {

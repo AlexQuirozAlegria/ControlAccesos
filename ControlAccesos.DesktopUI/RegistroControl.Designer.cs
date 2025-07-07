@@ -277,6 +277,7 @@
             btnActualizar.TabIndex = 5;
             btnActualizar.Text = "Actualizar";
             btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
             // 
             // RegistroControl
             // 
