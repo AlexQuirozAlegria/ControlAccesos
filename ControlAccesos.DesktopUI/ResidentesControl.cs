@@ -63,7 +63,7 @@ namespace ControlAccesos.DesktopUI
                 formRegistro.Controls.Add(registroControl);
                 formRegistro.ShowDialog();
             }
-            // TODO: refresh grid view after editing
+            btnBuscarUsuario_Click(sender, e);
         }
 
         private async void btnBuscarUsuario_Click(object sender, EventArgs e)
