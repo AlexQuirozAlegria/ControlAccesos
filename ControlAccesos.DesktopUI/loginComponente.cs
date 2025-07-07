@@ -5,8 +5,10 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ControlAccesos.Core.Models;
 
 namespace ControlAccesos.DesktopUI
 {
@@ -18,10 +20,49 @@ namespace ControlAccesos.DesktopUI
         {
             InitializeComponent();
         }
-
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async Task<bool> RealizarLoginAsync(string username, string password)
         {
-            if (txtUsuario.Text == "ROOT" && txtPassword.Text == "1234")
+            var loginRequest = new loginRequest
+            {
+                Username = username,
+                Password = password
+            };
+
+            using (var httpClient = new HttpClient())
+            {
+                string url = "http://localhost:5000/api/Account/login/"; // Cambia la URL por la de tu API real
+                var json = JsonSerializer.Serialize(loginRequest);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                var response = await httpClient.PostAsync(url, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var loginResponse = JsonSerializer.Deserialize<LoginResponse>(responseBody);
+
+                    if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
+                    {
+                        StaticSession.JwtToken = loginResponse.Token;
+                        // Aquí puedes guardar el token en una clase estática o singleton para usarlo en toda la app
+                        // Por ejemplo: SessionManager.JwtToken = loginResponse.Token;
+                        return true;
+                    }
+                    return true;
+                }
+                else
+                {
+                    var errorMsg = await response.Content.ReadAsStringAsync();
+                    MessageBox.Show($"Error: {errorMsg}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+        }
+        private async void btnLogin_Click(object sender, EventArgs e)
+        {
+
+            bool loginOk = await RealizarLoginAsync(txtUsuario.Text, txtPassword.Text);
+
+            if (loginOk)
             {
                 this.LoginExitoso = true;
                 this.FindForm()?.Close();
