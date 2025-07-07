@@ -20,7 +20,7 @@ namespace ControlAccesos.DesktopUI
         {
             InitializeComponent();
             InitializeQRScannerComponents();
-            apiBaseUrl = "https://localhost:7249/api/";
+            apiBaseUrl = "http://localhost:5295/api/";
 
         }
 

@@ -120,6 +120,7 @@
             btnBuscarUsuario.TabIndex = 16;
             btnBuscarUsuario.Text = "Buscar";
             btnBuscarUsuario.UseVisualStyleBackColor = true;
+            btnBuscarUsuario.Click += btnBuscarUsuario_Click;
             // 
             // ResidentesControl
             // 
