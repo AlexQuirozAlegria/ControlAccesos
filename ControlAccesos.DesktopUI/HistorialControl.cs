@@ -1,6 +1,7 @@
 ﻿using ControlAccesos.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -35,7 +36,6 @@ namespace ControlAccesos.DesktopUI
                 {
                     FechaInicio = dtpDesde.Value.Date,
                     FechaFin = dtpHasta.Value.Date.AddDays(1).AddTicks(-1),
-                    TipoHabitante = cmbHabitante.Text
                 };
 
                 if (int.TryParse(txtResidenteId.Text, out int resId))
@@ -47,12 +47,12 @@ namespace ControlAccesos.DesktopUI
                 if (int.TryParse(txtGuardiaId.Text, out int guaId))
                     request.GuardiaId = guaId;
 
-                
+                    request.TipoDePersona = cmbHabitante.SelectedIndex == 0 ? "residente":"invitado";
                     request.PlacasVehiculo = txtPlacas.Text;
 
                 if (cmbTipo.SelectedIndex > 0 && cmbTipo.SelectedItem != null)
                     request.TipoAcceso = cmbTipo.SelectedItem.ToString();
-
+                Debug.WriteLine("Tipo Habitante: " + request.TipoDePersona);
                 var historial = await _apiClient.PostAsync<AccessHistoryRequest, List<HistorialResponse>>("Acceso/history", request);
 
                 dgvHistorial.AutoGenerateColumns = false;

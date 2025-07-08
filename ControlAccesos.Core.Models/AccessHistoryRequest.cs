@@ -11,6 +11,6 @@ namespace ControlAccesos.Core.Models
         public string? TipoAcceso { get; set; }
         public int? GuardiaId { get; set; }
         public string? PlacasVehiculo { get; set; }
-        public string? TipoHabitante { get; set; } // Puede
+        public string? TipoDePersona { get; set; } // Puede
     }
 }

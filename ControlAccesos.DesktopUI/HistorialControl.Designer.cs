@@ -183,7 +183,7 @@
             // 
             // cmbHabitante
             // 
-            cmbHabitante.Items.AddRange(new object[] { "Residente", "Invitado" });
+            cmbHabitante.Items.AddRange(new object[] { "residente", "invitado" });
             cmbHabitante.Location = new Point(18, 348);
             cmbHabitante.Name = "cmbHabitante";
             cmbHabitante.Size = new Size(121, 28);
