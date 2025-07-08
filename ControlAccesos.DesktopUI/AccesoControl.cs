@@ -1,11 +1,8 @@
-﻿
-using Emgu.CV;
+﻿using Emgu.CV;
 // ZXing.Net namespaces
 using ZXing;
 using Emgu.CV.CvEnum;
-
-
-
+using ControlAccesos.Core.Models;
 
 namespace ControlAccesos.DesktopUI
 {
@@ -15,13 +12,13 @@ namespace ControlAccesos.DesktopUI
         private string apiBaseUrl;
         private bool _capturing = false;
         private ZXing.Windows.Compatibility.BarcodeReader barcodeReader;
+        private ApiClient _apiClient = new ApiClient("http://localhost:5295/api/", StaticSession.JwtToken);
 
         public AccesoControl()
         {
             InitializeComponent();
             InitializeQRScannerComponents();
             apiBaseUrl = "http://localhost:5295/api/";
-
         }
 
         private void InitializeQRScannerComponents()
@@ -180,7 +177,10 @@ namespace ControlAccesos.DesktopUI
                     _capture.ImageGrabbed -= ProcessFrameAsync;
                     _capturing = false;
                 }
-                _capture.Dispose();
+                if (_capture != null)
+                {
+                    _capture.Dispose();
+                }
                 _capture = null;
             }
 
@@ -190,7 +190,17 @@ namespace ControlAccesos.DesktopUI
                 pictureBoxCamera.Image = null;
             }
 
-            comboBoxCameras.Enabled = true;
+            if (comboBoxCameras.InvokeRequired)
+            {
+                comboBoxCameras.Invoke(new MethodInvoker(delegate
+                {
+                    comboBoxCameras.Enabled = true;
+                }));
+            }
+            else
+            {
+                comboBoxCameras.Enabled = true;
+            }
         }
 
         // --- Evento: Al cerrar el formulario ---
@@ -202,32 +212,35 @@ namespace ControlAccesos.DesktopUI
         // --- Método asíncrono para consumo de la API ---
         private async Task ValidarAccesoConQR(string qrCodeText)
         {
-
-            using (HttpClient client = new HttpClient())
+            try
             {
-                client.BaseAddress = new Uri(apiBaseUrl);
-                try
-                {
-                    string encodedQrCode = Uri.EscapeDataString(qrCodeText);
-                    HttpResponseMessage response = await client.GetAsync($"Invitado/validate-qr/{encodedQrCode}");
-                    response.EnsureSuccessStatusCode();
-
-                    string result = await response.Content.ReadAsStringAsync();
-                    MessageBox.Show($"Respuesta de la API al validar QR: {result}", "Validación API", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (HttpRequestException ex)
-                {
-                    MessageBox.Show($"Error al llamar a la API: {ex.Message}", "Error de API", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error inesperado al validar QR: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                string encodedQrCode = Uri.EscapeDataString(qrCodeText);
+                Invitado response = await _apiClient.GetAsync<Invitado>($"Invitado/validate-qr/{encodedQrCode}");
+                setData(response);
+            }
+            catch (HttpRequestException ex)
+            {
+                MessageBox.Show($"Error al llamar a la API: {ex.Message}", "Error de API", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado al validar QR: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-
-
-
+        private void setData(Invitado invitado)
+        {
+            if (invitado != null)
+            {
+                lblName.Text = $"{invitado.Name} {invitado.LastName}";
+                lblInvitacion.Text = invitado.Type.ToString();
+                lblValidez.Text = invitado.date.HasValue ? invitado.date.Value.ToString("dd/MM/yyyy") : "Indefinido";
+                lblResidente.Text = invitado.Host;
+                lblMessage.Text = invitado.Message;
+            }
+            else
+            {
+                MessageBox.Show("No se encontró información del invitado.", "Información no encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

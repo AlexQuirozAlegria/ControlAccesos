@@ -64,7 +64,8 @@ public class ApiClient
 
         return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
         });
     }
 
