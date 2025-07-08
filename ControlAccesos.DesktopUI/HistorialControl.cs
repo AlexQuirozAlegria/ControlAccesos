@@ -1,7 +1,9 @@
 ﻿using ControlAccesos.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ControlAccesos.DesktopUI
@@ -36,43 +38,49 @@ namespace ControlAccesos.DesktopUI
                     FechaFin = dtpHasta.Value.Date.AddDays(1).AddTicks(-1),
                 };
 
-                if (!string.IsNullOrWhiteSpace(txtResidenteId.Text) && int.TryParse(txtResidenteId.Text, out int resId))
+                if (int.TryParse(txtResidenteId.Text, out int resId))
                     request.ResidenteId = resId;
 
-                if (!string.IsNullOrWhiteSpace(txtInvitadoId.Text) && int.TryParse(txtInvitadoId.Text, out int invId))
+                if (int.TryParse(txtInvitadoId.Text, out int invId))
                     request.InvitadoId = invId;
 
-                if (!string.IsNullOrWhiteSpace(txtGuardiaId.Text) && int.TryParse(txtGuardiaId.Text, out int guaId))
+                if (int.TryParse(txtGuardiaId.Text, out int guaId))
                     request.GuardiaId = guaId;
 
-                if (!string.IsNullOrWhiteSpace(txtPlacas.Text))
+                    request.TipoDePersona = cmbHabitante.SelectedIndex == 0 ? "residente":"invitado";
                     request.PlacasVehiculo = txtPlacas.Text;
 
                 if (cmbTipo.SelectedIndex > 0 && cmbTipo.SelectedItem != null)
                     request.TipoAcceso = cmbTipo.SelectedItem.ToString();
-
+                Debug.WriteLine("Tipo Habitante: " + request.TipoDePersona);
                 var historial = await _apiClient.PostAsync<AccessHistoryRequest, List<HistorialResponse>>("Acceso/history", request);
 
-                dgvHistorial.DataSource = historial;
+                dgvHistorial.AutoGenerateColumns = false;
+                dgvHistorial.Columns.Clear();
 
-                if (dgvHistorial.Columns.Count > 0)
+                if (historial != null && historial.Any())
                 {
-                    dgvHistorial.Columns["FechaHora"].HeaderText = "Fecha y Hora";
-                    dgvHistorial.Columns["TipoAcceso"].HeaderText = "Tipo";
-                    dgvHistorial.Columns["NombrePersona"].HeaderText = "Quién Entró/Salió";
-                    dgvHistorial.Columns["Rol"].HeaderText = "Rol";
-                    dgvHistorial.Columns["InvitadoPor"].HeaderText = "Invitado Por";
-                    dgvHistorial.Columns["Guardia"].HeaderText = "Guardia que Registró";
-                    dgvHistorial.Columns["Placas"].HeaderText = "Placas";
+                    var firstItem = historial.First();
+                    var properties = firstItem.GetType().GetProperties();
 
-                    dgvHistorial.Columns["FechaHora"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+                    foreach (var prop in properties)
+                    {
+                        bool allNull = historial.All(h => prop.GetValue(h) == null);
+                        if (allNull) continue;
+                        var column = new DataGridViewTextBoxColumn
+                        {
+                            DataPropertyName = prop.Name,
+                            Name = prop.Name,
+                            HeaderText = prop.Name // Puedes personalizar el HeaderText aquí
+                        };
+                        dgvHistorial.Columns.Add(column);
+                    }
 
-                    dgvHistorial.Columns["NombrePersona"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dgvHistorial.Columns["InvitadoPor"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dgvHistorial.DataSource = historial;
                 }
-
-                if (historial == null || !historial.Any())
+                else
                 {
+                    dgvHistorial.DataSource = null;
                     MessageBox.Show("No se encontraron registros con los filtros especificados.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -80,6 +88,16 @@ namespace ControlAccesos.DesktopUI
             {
                 MessageBox.Show($"Error al cargar el historial: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cboHabitante_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private async void cmbHabitante_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }

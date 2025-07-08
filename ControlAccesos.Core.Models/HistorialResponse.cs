@@ -5,25 +5,18 @@ namespace ControlAccesos.Core.Models
 {
     public class HistorialResponse
     {
-        [JsonPropertyName("fechaHora")]
+        public int Id { get; set; }
         public DateTime FechaHora { get; set; }
-
-        [JsonPropertyName("tipoAcceso")]
-        public string TipoAcceso { get; set; }
-
-        [JsonPropertyName("nombrePersona")]
-        public string NombrePersona { get; set; }
-
-        [JsonPropertyName("rol")]
-        public string Rol { get; set; }
-
-        [JsonPropertyName("invitadoPor")]
-        public string? InvitadoPor { get; set; }
-
-        [JsonPropertyName("guardia")]
-        public string Guardia { get; set; }
-
-        [JsonPropertyName("placas")]
-        public string? Placas { get; set; }
+        public string? TipoAcceso { get; set; }
+        public string? NombreResidente { get; set; }
+        public string? ApellidosResidente { get; set; }
+        public string? DomicilioResidente { get; set; }
+        public string? NombreInvitado { get; set; }
+        public string? ApellidosInvitado { get; set; }
+        public string? TipoInvitacionInvitado { get; set; }
+        public string? NombreGuardia { get; set; }
+        public string? ApellidosGuardia { get; set; }
+        public string? PlacasVehiculo { get; set; }
+        public string? Notas { get; set; }
     }
 }

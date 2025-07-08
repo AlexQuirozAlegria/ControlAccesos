@@ -44,6 +44,7 @@
             label6 = new Label();
             label7 = new Label();
             txtPlacas = new TextBox();
+            cmbHabitante = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvHistorial).BeginInit();
             SuspendLayout();
             // 
@@ -100,14 +101,14 @@
             // 
             // txtInvitadoId
             // 
-            txtInvitadoId.Location = new Point(260, 48);
+            txtInvitadoId.Location = new Point(260, 49);
             txtInvitadoId.Name = "txtInvitadoId";
             txtInvitadoId.Size = new Size(58, 27);
             txtInvitadoId.TabIndex = 12;
             // 
             // txtResidenteId
             // 
-            txtResidenteId.Location = new Point(105, 48);
+            txtResidenteId.Location = new Point(105, 49);
             txtResidenteId.Name = "txtResidenteId";
             txtResidenteId.Size = new Size(58, 27);
             txtResidenteId.TabIndex = 13;
@@ -180,10 +181,20 @@
             txtPlacas.Size = new Size(58, 27);
             txtPlacas.TabIndex = 21;
             // 
+            // cmbHabitante
+            // 
+            cmbHabitante.Items.AddRange(new object[] { "residente", "invitado" });
+            cmbHabitante.Location = new Point(18, 348);
+            cmbHabitante.Name = "cmbHabitante";
+            cmbHabitante.Size = new Size(121, 28);
+            cmbHabitante.TabIndex = 0;
+            cmbHabitante.SelectedIndexChanged += cmbHabitante_SelectedIndexChanged;
+            // 
             // HistorialControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(cmbHabitante);
             Controls.Add(txtPlacas);
             Controls.Add(label7);
             Controls.Add(label6);
@@ -225,5 +236,6 @@
         private Label label6;
         private Label label7;
         private TextBox txtPlacas;
+        private ComboBox cmbHabitante;
     }
 }
