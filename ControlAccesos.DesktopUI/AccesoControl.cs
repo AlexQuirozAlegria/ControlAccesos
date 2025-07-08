@@ -3,6 +3,7 @@
 using ZXing;
 using Emgu.CV.CvEnum;
 using ControlAccesos.Core.Models;
+using System.Diagnostics;
 
 namespace ControlAccesos.DesktopUI
 {
@@ -13,6 +14,9 @@ namespace ControlAccesos.DesktopUI
         private bool _capturing = false;
         private ZXing.Windows.Compatibility.BarcodeReader barcodeReader;
         private ApiClient _apiClient = new ApiClient("http://localhost:5295/api/", StaticSession.JwtToken);
+        private AccessResponse lastUsed;
+        private QR invitado;
+        private string code;
 
         public AccesoControl()
         {
@@ -129,7 +133,7 @@ namespace ControlAccesos.DesktopUI
                         {
                             try
                             {
-                                Result result = barcodeReader.Decode(bitmapForDecoding); 
+                                Result result = barcodeReader.Decode(bitmapForDecoding);
                                 return result?.Text;
                             }
                             catch (Exception exDecode)
@@ -161,8 +165,8 @@ namespace ControlAccesos.DesktopUI
                                 await ValidarAccesoConQR(qrText);
                             }
                         }
-                    } 
-                } 
+                    }
+                }
             }
         }
 
@@ -215,8 +219,30 @@ namespace ControlAccesos.DesktopUI
             try
             {
                 string encodedQrCode = Uri.EscapeDataString(qrCodeText);
-                Invitado response = await _apiClient.GetAsync<Invitado>($"Invitado/validate-qr/{encodedQrCode}");
+                QR response = await _apiClient.GetAsync<QR>($"Invitado/validate-qr/{encodedQrCode}");
                 setData(response);
+                lastUsed = await getLastTimestamp(response);
+                if (lastUsed != null)
+                {
+                    if (lastUsed.state == EState.Entrada)
+                    {
+                        btnEntrada.Enabled = false;
+                        btnSalida.Enabled = true;
+                    }
+                    else
+                    {
+                        btnEntrada.Enabled = true;
+                        btnSalida.Enabled = false;
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("No se encontraron registros previos para este QR.");
+                    btnEntrada.Enabled = true;
+                    btnSalida.Enabled = false;
+                }
+                invitado = response;
+                code = qrCodeText;
             }
             catch (HttpRequestException ex)
             {
@@ -227,7 +253,30 @@ namespace ControlAccesos.DesktopUI
                 MessageBox.Show($"Error inesperado al validar QR: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void setData(Invitado invitado)
+
+        private async Task<AccessResponse> getLastTimestamp(QR invitado)
+        {
+            AccessRequest request = new AccessRequest
+            {
+                GuestId = invitado.Id,
+                AccessType = null
+            };
+            List<AccessResponse>? allData = await
+                _apiClient.PostAsync<AccessRequest, List<AccessResponse>>("Acceso/history", request);
+
+            if (allData != null && allData.Count > 0)
+            {
+                AccessResponse lastRecord = allData.OrderByDescending(r => r.datetime).FirstOrDefault();
+                Debug.WriteLine($"Último registro: {lastRecord?.datetime} - Estado: {lastRecord?.state}");
+                return lastRecord;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        private void setData(QR invitado)
         {
             if (invitado != null)
             {
@@ -240,6 +289,72 @@ namespace ControlAccesos.DesktopUI
             else
             {
                 MessageBox.Show("No se encontró información del invitado.", "Información no encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnEntrada_Click(object sender, EventArgs e)
+        {
+            if (invitado != null)
+            {
+                RegisterAccessRequest request = new RegisterAccessRequest
+                {
+                    qrcode = code,
+                    state = EState.Entrada
+                };
+                _apiClient.PostAsync<RegisterAccessRequest, AccessResponse>("Acceso/register", request)
+                    .ContinueWith(task =>
+                    {
+                        if (task.IsCompletedSuccessfully)
+                        {
+                            AccessResponse response = task.Result;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                MessageBox.Show($"Entrada registrada: {response.datetime}", "Entrada Registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                btnEntrada.Enabled = false;
+                                btnSalida.Enabled = true;
+                            });
+                        }
+                        else
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                MessageBox.Show("Error al registrar la entrada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            });
+                        }
+                    });
+            }
+        }
+
+        private void btnSalida_Click(object sender, EventArgs e)
+        {
+            if (invitado != null)
+            {
+                RegisterAccessRequest request = new RegisterAccessRequest
+                {
+                    qrcode = code,
+                    state = EState.Salida
+                };
+                _apiClient.PostAsync<RegisterAccessRequest, AccessResponse>("Acceso/register", request)
+                    .ContinueWith(task =>
+                    {
+                        if (task.IsCompletedSuccessfully)
+                        {
+                            AccessResponse response = task.Result;
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                MessageBox.Show($"Salida registrada: {response.datetime}", "Entrada Registrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                btnEntrada.Enabled = true;
+                                btnSalida.Enabled = false;
+                            });
+                        }
+                        else
+                        {
+                            this.Invoke((MethodInvoker)delegate
+                            {
+                                MessageBox.Show("Error al registrar la salida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            });
+                        }
+                    });
             }
         }
     }

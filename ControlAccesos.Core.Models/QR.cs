@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 
 namespace ControlAccesos.Core.Models
 {
-    public class Invitado
+    public class QR
     {
         [JsonPropertyName("invitadoId")]
         public int Id { get; set; }

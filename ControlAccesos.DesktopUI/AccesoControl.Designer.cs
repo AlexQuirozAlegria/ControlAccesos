@@ -148,6 +148,7 @@
             btnEntrada.TabIndex = 7;
             btnEntrada.Text = "Registrar Entrada";
             btnEntrada.UseVisualStyleBackColor = true;
+            btnEntrada.Click += btnEntrada_Click;
             // 
             // btnSalida
             // 
@@ -159,6 +160,7 @@
             btnSalida.TabIndex = 8;
             btnSalida.Text = "Registrar Salida";
             btnSalida.UseVisualStyleBackColor = true;
+            btnSalida.Click += btnSalida_Click;
             // 
             // label1
             // 
