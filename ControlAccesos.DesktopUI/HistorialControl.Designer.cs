@@ -28,33 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnFiltrarHistorial = new Button();
+            btnFiltrar = new Button();
             dgvHistorial = new DataGridView();
-            dtpFechaFin = new DateTimePicker();
+            dtpHasta = new DateTimePicker();
             label4 = new Label();
-            dtpFechaInicio = new DateTimePicker();
+            dtpDesde = new DateTimePicker();
             label3 = new Label();
-            txtInvitadoID = new TextBox();
-            txtResidenteID = new TextBox();
+            txtInvitadoId = new TextBox();
+            txtResidenteId = new TextBox();
             cmbTipo = new ComboBox();
             label1 = new Label();
             label2 = new Label();
             label5 = new Label();
-            txtGuardiaID = new TextBox();
+            txtGuardiaId = new TextBox();
             label6 = new Label();
             label7 = new Label();
             txtPlacas = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvHistorial).BeginInit();
             SuspendLayout();
             // 
-            // btnFiltrarHistorial
+            // btnFiltrar
             // 
-            btnFiltrarHistorial.Location = new Point(647, 347);
-            btnFiltrarHistorial.Name = "btnFiltrarHistorial";
-            btnFiltrarHistorial.Size = new Size(86, 29);
-            btnFiltrarHistorial.TabIndex = 11;
-            btnFiltrarHistorial.Text = "Filtrar";
-            btnFiltrarHistorial.UseVisualStyleBackColor = true;
+            btnFiltrar.Location = new Point(647, 347);
+            btnFiltrar.Name = "btnFiltrar";
+            btnFiltrar.Size = new Size(86, 29);
+            btnFiltrar.TabIndex = 11;
+            btnFiltrar.Text = "Filtrar";
+            btnFiltrar.UseVisualStyleBackColor = true;
+            btnFiltrar.Click += btnFiltrar_Click;
             // 
             // dgvHistorial
             // 
@@ -65,12 +66,12 @@
             dgvHistorial.Size = new Size(715, 259);
             dgvHistorial.TabIndex = 10;
             // 
-            // dtpFechaFin
+            // dtpHasta
             // 
-            dtpFechaFin.Location = new Point(431, 10);
-            dtpFechaFin.Name = "dtpFechaFin";
-            dtpFechaFin.Size = new Size(302, 27);
-            dtpFechaFin.TabIndex = 9;
+            dtpHasta.Location = new Point(431, 10);
+            dtpHasta.Name = "dtpHasta";
+            dtpHasta.Size = new Size(302, 27);
+            dtpHasta.TabIndex = 9;
             // 
             // label4
             // 
@@ -81,12 +82,12 @@
             label4.TabIndex = 8;
             label4.Text = "Hasta: ";
             // 
-            // dtpFechaInicio
+            // dtpDesde
             // 
-            dtpFechaInicio.Location = new Point(63, 10);
-            dtpFechaInicio.Name = "dtpFechaInicio";
-            dtpFechaInicio.Size = new Size(302, 27);
-            dtpFechaInicio.TabIndex = 7;
+            dtpDesde.Location = new Point(63, 10);
+            dtpDesde.Name = "dtpDesde";
+            dtpDesde.Size = new Size(302, 27);
+            dtpDesde.TabIndex = 7;
             // 
             // label3
             // 
@@ -97,19 +98,19 @@
             label3.TabIndex = 6;
             label3.Text = "Desde:";
             // 
-            // txtInvitadoID
+            // txtInvitadoId
             // 
-            txtInvitadoID.Location = new Point(260, 48);
-            txtInvitadoID.Name = "txtInvitadoID";
-            txtInvitadoID.Size = new Size(58, 27);
-            txtInvitadoID.TabIndex = 12;
+            txtInvitadoId.Location = new Point(260, 48);
+            txtInvitadoId.Name = "txtInvitadoId";
+            txtInvitadoId.Size = new Size(58, 27);
+            txtInvitadoId.TabIndex = 12;
             // 
-            // txtResidenteID
+            // txtResidenteId
             // 
-            txtResidenteID.Location = new Point(105, 48);
-            txtResidenteID.Name = "txtResidenteID";
-            txtResidenteID.Size = new Size(58, 27);
-            txtResidenteID.TabIndex = 13;
+            txtResidenteId.Location = new Point(105, 48);
+            txtResidenteId.Name = "txtResidenteId";
+            txtResidenteId.Size = new Size(58, 27);
+            txtResidenteId.TabIndex = 13;
             // 
             // cmbTipo
             // 
@@ -147,12 +148,12 @@
             label5.TabIndex = 17;
             label5.Text = "Invitado ID:";
             // 
-            // txtGuardiaID
+            // txtGuardiaId
             // 
-            txtGuardiaID.Location = new Point(413, 48);
-            txtGuardiaID.Name = "txtGuardiaID";
-            txtGuardiaID.Size = new Size(58, 27);
-            txtGuardiaID.TabIndex = 18;
+            txtGuardiaId.Location = new Point(413, 48);
+            txtGuardiaId.Name = "txtGuardiaId";
+            txtGuardiaId.Size = new Size(58, 27);
+            txtGuardiaId.TabIndex = 18;
             // 
             // label6
             // 
@@ -186,18 +187,18 @@
             Controls.Add(txtPlacas);
             Controls.Add(label7);
             Controls.Add(label6);
-            Controls.Add(txtGuardiaID);
+            Controls.Add(txtGuardiaId);
             Controls.Add(label5);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(cmbTipo);
-            Controls.Add(txtResidenteID);
-            Controls.Add(txtInvitadoID);
-            Controls.Add(btnFiltrarHistorial);
+            Controls.Add(txtResidenteId);
+            Controls.Add(txtInvitadoId);
+            Controls.Add(btnFiltrar);
             Controls.Add(dgvHistorial);
-            Controls.Add(dtpFechaFin);
+            Controls.Add(dtpHasta);
             Controls.Add(label4);
-            Controls.Add(dtpFechaInicio);
+            Controls.Add(dtpDesde);
             Controls.Add(label3);
             Name = "HistorialControl";
             Size = new Size(761, 388);
@@ -208,19 +209,19 @@
 
         #endregion
 
-        private Button btnFiltrarHistorial;
+        private Button btnFiltrar;
         private DataGridView dgvHistorial;
-        private DateTimePicker dtpFechaFin;
+        private DateTimePicker dtpHasta;
         private Label label4;
-        private DateTimePicker dtpFechaInicio;
+        private DateTimePicker dtpDesde;
         private Label label3;
-        private TextBox txtInvitadoID;
-        private TextBox txtResidenteID;
+        private TextBox txtInvitadoId;
+        private TextBox txtResidenteId;
         private ComboBox cmbTipo;
         private Label label1;
         private Label label2;
         private Label label5;
-        private TextBox txtGuardiaID;
+        private TextBox txtGuardiaId;
         private Label label6;
         private Label label7;
         private TextBox txtPlacas;

@@ -69,7 +69,6 @@ public class ApiClient
         });
     }
 
-
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(string path, TRequest data)
     {
         string json = JsonSerializer.Serialize(data, new JsonSerializerOptions
@@ -102,7 +101,7 @@ public class ApiClient
             Converters = { new JsonStringEnumConverter() }
         });
     }
-
+    
     public async Task<TResponse?> PostWithQueryAsync<TRequest, TResponse>(
         string path,
         Dictionary<string, string> queryParams,
