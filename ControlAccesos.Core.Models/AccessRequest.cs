@@ -25,7 +25,7 @@ namespace ControlAccesos.Core.Models
         public EAccessType? AccessType { get; set; }
         
         [JsonPropertyName("GuardiaId")]
-        public int GuardId { get; set; }
+        public int? GuardId { get; set; }
 
         [JsonPropertyName("PlacasVehiculo")]
         public string? Plate { get; set; }

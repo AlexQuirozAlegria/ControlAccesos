@@ -42,7 +42,6 @@ public class ApiClient
 
     public async Task<T?> GetAsync<T>(string path)
     {
-        AddJwtHeader(); // Ensure token is applied if needed
         Debug.WriteLine($"GET Request: {path}");
         Debug.WriteLine($"JWT Token: {_jwtToken}");
 
