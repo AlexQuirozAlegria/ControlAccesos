@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ControlAccesos.DesktopUI
@@ -34,6 +35,7 @@ namespace ControlAccesos.DesktopUI
                 {
                     FechaInicio = dtpDesde.Value.Date,
                     FechaFin = dtpHasta.Value.Date.AddDays(1).AddTicks(-1),
+                    TipoHabitante = cmbHabitante.Text
                 };
 
                 if (!string.IsNullOrWhiteSpace(txtResidenteId.Text) && int.TryParse(txtResidenteId.Text, out int resId))
@@ -53,26 +55,32 @@ namespace ControlAccesos.DesktopUI
 
                 var historial = await _apiClient.PostAsync<AccessHistoryRequest, List<HistorialResponse>>("Acceso/history", request);
 
-                dgvHistorial.DataSource = historial;
+                dgvHistorial.AutoGenerateColumns = false;
+                dgvHistorial.Columns.Clear();
 
-                if (dgvHistorial.Columns.Count > 0)
+                if (historial != null && historial.Any())
                 {
-                    dgvHistorial.Columns["FechaHora"].HeaderText = "Fecha y Hora";
-                    dgvHistorial.Columns["TipoAcceso"].HeaderText = "Tipo";
-                    dgvHistorial.Columns["NombrePersona"].HeaderText = "Quién Entró/Salió";
-                    dgvHistorial.Columns["Rol"].HeaderText = "Rol";
-                    dgvHistorial.Columns["InvitadoPor"].HeaderText = "Invitado Por";
-                    dgvHistorial.Columns["Guardia"].HeaderText = "Guardia que Registró";
-                    dgvHistorial.Columns["Placas"].HeaderText = "Placas";
+                    var firstItem = historial.First();
+                    var properties = firstItem.GetType().GetProperties();
 
-                    dgvHistorial.Columns["FechaHora"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm";
+                    foreach (var prop in properties)
+                    {
+                        bool allNull = historial.All(h => prop.GetValue(h) == null);
+                        if (allNull) continue;
+                        var column = new DataGridViewTextBoxColumn
+                        {
+                            DataPropertyName = prop.Name,
+                            Name = prop.Name,
+                            HeaderText = prop.Name // Puedes personalizar el HeaderText aquí
+                        };
+                        dgvHistorial.Columns.Add(column);
+                    }
 
-                    dgvHistorial.Columns["NombrePersona"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
-                    dgvHistorial.Columns["InvitadoPor"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dgvHistorial.DataSource = historial;
                 }
-
-                if (historial == null || !historial.Any())
+                else
                 {
+                    dgvHistorial.DataSource = null;
                     MessageBox.Show("No se encontraron registros con los filtros especificados.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
@@ -80,6 +88,16 @@ namespace ControlAccesos.DesktopUI
             {
                 MessageBox.Show($"Error al cargar el historial: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void cboHabitante_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private async void cmbHabitante_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
