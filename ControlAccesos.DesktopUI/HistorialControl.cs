@@ -47,12 +47,12 @@ namespace ControlAccesos.DesktopUI
                 if (int.TryParse(txtGuardiaId.Text, out int guaId))
                     request.GuardiaId = guaId;
 
-                    request.TipoDePersona = cmbHabitante.SelectedIndex == 0 ? "residente":"invitado";
+                    request.tipoDePersona = cmbHabitante.SelectedIndex == 0 ? EPersona.Residente:EPersona.Invitado;
                     request.PlacasVehiculo = txtPlacas.Text;
 
                 if (cmbTipo.SelectedIndex > 0 && cmbTipo.SelectedItem != null)
                     request.TipoAcceso = cmbTipo.SelectedItem.ToString();
-                Debug.WriteLine("Tipo Habitante: " + request.TipoDePersona);
+                Debug.WriteLine("Tipo Habitante: " + request.tipoDePersona);
                 var historial = await _apiClient.PostAsync<AccessHistoryRequest, List<HistorialResponse>>("Acceso/history", request);
 
                 dgvHistorial.AutoGenerateColumns = false;
