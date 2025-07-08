@@ -38,16 +38,16 @@ namespace ControlAccesos.DesktopUI
                     TipoHabitante = cmbHabitante.Text
                 };
 
-                if (!string.IsNullOrWhiteSpace(txtResidenteId.Text) && int.TryParse(txtResidenteId.Text, out int resId))
+                if (int.TryParse(txtResidenteId.Text, out int resId))
                     request.ResidenteId = resId;
 
-                if (!string.IsNullOrWhiteSpace(txtInvitadoId.Text) && int.TryParse(txtInvitadoId.Text, out int invId))
+                if (int.TryParse(txtInvitadoId.Text, out int invId))
                     request.InvitadoId = invId;
 
-                if (!string.IsNullOrWhiteSpace(txtGuardiaId.Text) && int.TryParse(txtGuardiaId.Text, out int guaId))
+                if (int.TryParse(txtGuardiaId.Text, out int guaId))
                     request.GuardiaId = guaId;
 
-                if (!string.IsNullOrWhiteSpace(txtPlacas.Text))
+                
                     request.PlacasVehiculo = txtPlacas.Text;
 
                 if (cmbTipo.SelectedIndex > 0 && cmbTipo.SelectedItem != null)
