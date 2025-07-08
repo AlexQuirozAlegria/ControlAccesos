@@ -73,9 +73,8 @@
             lblMessage.Font = new Font("Segoe UI", 12F);
             lblMessage.Location = new Point(27, 233);
             lblMessage.Name = "lblMessage";
-            lblMessage.Size = new Size(183, 28);
+            lblMessage.Size = new Size(0, 28);
             lblMessage.TabIndex = 15;
-            lblMessage.Text = "Esperando código...";
             // 
             // lblResidente
             // 
@@ -83,9 +82,8 @@
             lblResidente.Font = new Font("Segoe UI", 12F);
             lblResidente.Location = new Point(27, 193);
             lblResidente.Name = "lblResidente";
-            lblResidente.Size = new Size(183, 28);
+            lblResidente.Size = new Size(0, 28);
             lblResidente.TabIndex = 14;
-            lblResidente.Text = "Esperando código...";
             // 
             // lblValidez
             // 
@@ -93,9 +91,8 @@
             lblValidez.Font = new Font("Segoe UI", 12F);
             lblValidez.Location = new Point(27, 153);
             lblValidez.Name = "lblValidez";
-            lblValidez.Size = new Size(183, 28);
+            lblValidez.Size = new Size(0, 28);
             lblValidez.TabIndex = 13;
-            lblValidez.Text = "Esperando código...";
             // 
             // lblInvitacion
             // 
@@ -103,9 +100,8 @@
             lblInvitacion.Font = new Font("Segoe UI", 12F);
             lblInvitacion.Location = new Point(27, 115);
             lblInvitacion.Name = "lblInvitacion";
-            lblInvitacion.Size = new Size(183, 28);
+            lblInvitacion.Size = new Size(0, 28);
             lblInvitacion.TabIndex = 12;
-            lblInvitacion.Text = "Esperando código...";
             // 
             // lblName
             // 
@@ -113,9 +109,8 @@
             lblName.Font = new Font("Segoe UI", 12F);
             lblName.Location = new Point(27, 76);
             lblName.Name = "lblName";
-            lblName.Size = new Size(187, 28);
+            lblName.Size = new Size(0, 28);
             lblName.TabIndex = 11;
-            lblName.Text = "Esperando codigo....";
             // 
             // lblResultado
             // 
@@ -123,9 +118,8 @@
             lblResultado.Font = new Font("Segoe UI", 12F);
             lblResultado.Location = new Point(27, 36);
             lblResultado.Name = "lblResultado";
-            lblResultado.Size = new Size(183, 28);
+            lblResultado.Size = new Size(0, 28);
             lblResultado.TabIndex = 0;
-            lblResultado.Text = "Esperando código...";
             lblResultado.Click += lblResultado_Click;
             // 
             // btnValidacion
@@ -135,8 +129,9 @@
             btnValidacion.Name = "btnValidacion";
             btnValidacion.Size = new Size(98, 51);
             btnValidacion.TabIndex = 10;
-            btnValidacion.Text = "Validar QR";
+            btnValidacion.Text = "Validar QR o usuario";
             btnValidacion.UseVisualStyleBackColor = true;
+            btnValidacion.Click += btnValidacion_Click;
             // 
             // btnEntrada
             // 
@@ -165,11 +160,11 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(277, 9);
+            label1.Location = new Point(514, 9);
             label1.Name = "label1";
-            label1.Size = new Size(217, 20);
+            label1.Size = new Size(154, 20);
             label1.TabIndex = 5;
-            label1.Text = "Escanear o ingresar Código QR:";
+            label1.Text = "Ingresar QR o usuario:";
             // 
             // txtCodigoQR
             // 
