@@ -64,23 +64,42 @@ public class ApiClient
 
         return JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
         });
     }
 
 
     public async Task<TResponse?> PostAsync<TRequest, TResponse>(string path, TRequest data)
     {
-        string json = JsonSerializer.Serialize(data);
+        string json = JsonSerializer.Serialize(data, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
+        });
         var content = new StringContent(json, Encoding.UTF8, "application/json");
 
+        Debug.WriteLine($"POST Request: {path}");
+        Debug.WriteLine($"Request Body: {json}");
+
         HttpResponseMessage response = await _httpClient.PostAsync(path, content);
-        response.EnsureSuccessStatusCode();
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Debug.WriteLine("Resource not found (404). Returning null.");
+            return default;
+        }
+
+        if (!response.IsSuccessStatusCode)
+        {
+            Debug.WriteLine($"Request failed with status {response.StatusCode}");
+            throw new HttpRequestException($"Request failed: {response.StatusCode}");
+        }
 
         string responseBody = await response.Content.ReadAsStringAsync();
         return JsonSerializer.Deserialize<TResponse>(responseBody, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
+            Converters = { new JsonStringEnumConverter() }
         });
     }
 
